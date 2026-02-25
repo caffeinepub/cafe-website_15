@@ -1,0 +1,177 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "TaskEarn Platform Frontend Implementation",
+  "requirements": [
+    {
+      "id": "REQ-7",
+      "summary": "Replace the existing homepage with a TaskEarn landing page featuring a hero section with platform name, tagline, CTA button, 'How It Works' section with three steps, and updated footer",
+      "acceptanceCriteria": [
+        "Hero section displays platform name, tagline, and CTA button",
+        "'How It Works' section shows three illustrated steps",
+        "Footer contains navigation links to Tasks, Dashboard, and Contact",
+        "Page is fully responsive on mobile and desktop"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Replace the cafe homepage content with a TaskEarn landing page. Add a hero section using the generated hero banner image (frontend/public/assets/generated/hero-banner.dim_1200x500.png) as a background, displaying the platform name 'TaskEarn', tagline 'Complete small tasks. Earn real rewards.', and a CTA button linking to /tasks. Add a 'How It Works' section with three steps: Sign Up, Pick a Task, Get Paid. Remove all cafe-related content (featured menu items, cafe hero)."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Replace cafe footer content with TaskEarn platform footer. Update navigation links to Home, Tasks, and Dashboard. Remove cafe contact information (address, phone, hours) and replace with platform copyright and simple footer structure. Remove backend contact info query."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Create a Tasks page (/tasks) that fetches and displays available tasks with title, description, reward, and category badge, includes category filtering, and allows task completion via modal",
+      "acceptanceCriteria": [
+        "Tasks page fetches available tasks via React Query and displays them as cards",
+        "Each card shows title, description snippet, reward, and category badge",
+        "Category filter bar filters the displayed tasks without a page reload",
+        "'Complete This Task' button calls submitTaskCompletion and shows a success toast",
+        "Loading skeleton cards are shown while data is fetching"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/TasksPage.tsx",
+          "operation": "create",
+          "description": "Create a new Tasks page component that fetches available tasks via the listAvailableTasks backend capability. Display tasks in a grid of cards showing task title, description snippet (truncated), reward amount, and category badge. Implement a category filter bar with buttons for each category (Coffee, Tea, Snacks, Meals, All) that filters the displayed tasks client-side. Show loading skeleton cards while fetching. When a task card is clicked, open a modal with full task details and a 'Complete This Task' button."
+        },
+        {
+          "path": "frontend/src/components/TaskCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable TaskCard component that displays a single task's title, truncated description, reward amount (formatted with 'tokens' label), and category badge. Use card-based styling with subtle shadows matching the TaskEarn theme. The card should be clickable and accept an onClick handler. Use the generated task reward icon (frontend/public/assets/generated/task-reward-icon.dim_400x400.png) to visually indicate the reward."
+        },
+        {
+          "path": "frontend/src/components/TaskDetailModal.tsx",
+          "operation": "create",
+          "description": "Create a modal component that displays full task details (title, full description, reward, category) and includes a 'Complete This Task' button. The button should call submitTaskCompletion mutation. If the user is not authenticated, show a sign-in prompt instead of the complete button. On successful completion, show a success toast and close the modal. Use shadcn/ui Dialog component for the modal structure."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add React Query hooks for TaskEarn operations: useListAvailableTasks (fetches available tasks), useSubmitTaskCompletion (mutation to submit task completion), useGetMyCompletions (fetches user's completed tasks), useGetMyBalance (fetches user balance), and useRequestWithdrawal (mutation to request withdrawal). Replace or remove cafe-specific queries (menu items, contact info)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a route for /tasks that renders TasksPage. Keep the / route for HomePage. Add a route for /dashboard that renders DashboardPage. Remove the /menu and /contact routes. Update the router configuration to include these new routes."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Implement Internet Identity authentication with sign-in/sign-out in navigation, call registerUser on login, and gate task completion behind authentication",
+      "acceptanceCriteria": [
+        "Navigation shows 'Sign In' button when user is not authenticated",
+        "Navigation shows truncated principal ID and 'Sign Out' when authenticated",
+        "Clicking 'Complete This Task' when unauthenticated shows a sign-in prompt instead",
+        "After login, registerUser is called automatically to create/retrieve the user profile"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Navigation.tsx",
+          "operation": "modify",
+          "description": "Use the authorization component to integrate Internet Identity authentication. Add a sign-in button that appears when the user is not authenticated. When authenticated, display the user's truncated principal ID (first 8 characters) and a sign-out button. Update navigation links to Home, Tasks, and Dashboard. Remove cafe-specific menu and contact links. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useAuth.ts",
+          "operation": "create",
+          "description": "Create a custom hook that wraps the authorization component's useInternetIdentity hook and automatically calls registerUser after successful login. The hook should check if a user profile exists via getCallerUserProfile and only call registerUser if the profile is null. Use the authorization component's authentication flow. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/TaskDetailModal.tsx",
+          "operation": "modify",
+          "description": "Add authentication gating to the 'Complete This Task' button. If the user is not authenticated, display a sign-in prompt message and a button to trigger login instead of allowing task completion. Use the useAuth hook to check authentication status."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetupModal.tsx",
+          "operation": "create",
+          "description": "Create a modal component that prompts first-time users to enter their username after logging in. This modal should appear only when the user is authenticated but has no profile (getCallerUserProfile returns null). The modal should include a form with a username field and a submit button that calls registerUser with the provided username. Use the authorization component's profile setup pattern. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap the router with the authorization component's InternetIdentityProvider. Add the ProfileSetupModal component to automatically appear when a user logs in without a profile. Ensure the modal does not flash by properly checking authentication and profile loading states using the authorization component's pattern. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Create a Dashboard page (/dashboard) for authenticated users showing balance, completed tasks list, summary card, and withdrawal request form",
+      "acceptanceCriteria": [
+        "Dashboard redirects unauthenticated users to the home page",
+        "Balance card shows the user's current earned balance",
+        "Completed tasks list shows task title, completion date, and reward for each entry",
+        "Summary card shows total number of completed tasks and total earnings",
+        "'Request Withdrawal' form validates the amount and calls requestWithdrawal on submit",
+        "A success toast confirms the withdrawal request was submitted"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Create a Dashboard page component that is only accessible to authenticated users. Redirect unauthenticated users to the home page. Display three sections: a balance card showing the user's current earned balance (fetched via getMyBalance), a summary card showing total completed tasks count and total earnings, and a completed tasks list showing each task's title, completion date, and reward earned (fetched via getMyCompletions). Include a 'Request Withdrawal' form with an amount input field that submits to requestWithdrawal. Show a success toast on successful withdrawal request. Use card-based layouts with loading skeletons while fetching data."
+        },
+        {
+          "path": "frontend/src/components/BalanceCard.tsx",
+          "operation": "create",
+          "description": "Create a card component that displays the user's current earned balance with a prominent balance amount and a 'tokens' label. Use card styling with subtle shadows matching the TaskEarn theme. Show a loading skeleton while balance is being fetched."
+        },
+        {
+          "path": "frontend/src/components/CompletedTasksList.tsx",
+          "operation": "create",
+          "description": "Create a list component that displays the user's completed tasks. Each list item should show the task title, completion date (formatted), and reward earned. If no tasks are completed, show an empty state message encouraging the user to complete their first task. Use card-based styling for each list item."
+        },
+        {
+          "path": "frontend/src/components/WithdrawalForm.tsx",
+          "operation": "create",
+          "description": "Create a form component for requesting withdrawals. Include an amount input field with validation (must be positive, cannot exceed current balance). On submit, call the requestWithdrawal mutation and show a success toast. Display loading state during submission. Reset the form after successful submission."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Apply a fresh modern visual theme with deep indigo and vibrant green accents, modern sans-serif typography, and card-based layouts, replacing all cafe-themed styles",
+      "acceptanceCriteria": [
+        "All pages use the new indigo/green color palette with no cafe earthy tones remaining",
+        "Typography uses a modern sans-serif font family for all headings and body text",
+        "Task cards, dashboard cards, and navigation use consistent card-with-shadow styling",
+        "Theme is consistently applied across Home, Tasks, Dashboard pages and Navigation/Footer"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Replace the cafe color palette (warm earthy browns, terracotta, cream, gold) with a modern TaskEarn theme using deep indigo and vibrant green accent colors in OKLCH format. Update CSS custom properties for primary, secondary, accent, background, and text colors. Change font family from serif to a modern sans-serif (e.g., Inter, system-ui). Ensure both light and dark mode variants use the new color scheme."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Update Tailwind configuration to use the new TaskEarn color tokens. Replace cafe-themed colors (brown, terracotta, cream, gold) with indigo and green color scales. Update font family configuration to use modern sans-serif fonts. Update box-shadow configurations for card-based layouts with subtle shadows. Remove any cafe-specific design tokens."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Update navigation bar to include Home, Tasks, and Dashboard links, remove cafe-specific links, highlight active route, and maintain mobile responsiveness",
+      "acceptanceCriteria": [
+        "Navigation links are: Home (/), Tasks (/tasks), Dashboard (/dashboard)",
+        "Active route link is visually highlighted",
+        "Mobile hamburger menu collapses navigation on small screens",
+        "No cafe-specific links (Menu, Contact) remain in the navigation"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Navigation.tsx",
+          "operation": "modify",
+          "description": "Update navigation links to: Home (/), Tasks (/tasks), and Dashboard (/dashboard). Remove Menu and Contact links. Ensure the active route is visually highlighted using TanStack Router's useRouterState or useMatchRoute. Maintain responsive mobile hamburger menu functionality. Update branding to 'TaskEarn' and apply the new indigo/green theme styling."
+        }
+      ]
+    }
+  ]
+}

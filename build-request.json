@@ -1,0 +1,147 @@
+{
+  "kind": "build_request",
+  "title": "Build a micro-task earning platform (replace cafe site)",
+  "projectName": "TaskEarn",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-6",
+      "text": "Replace the existing cafe backend with a new backend actor that supports: user profiles (stored by principal) with a balance field; task definitions (id, title, description, reward amount, category, status); task completion records (taskId, userId, completedAt, approved); and contact/withdrawal request submissions. Provide functions: registerUser, getMyProfile, listAvailableTasks, submitTaskCompletion, getMyCompletions, getMyBalance, and requestWithdrawal.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Make an website which can make me earn money by small tasks"
+        ]
+      },
+      "acceptanceCriteria": [
+        "registerUser creates or retrieves a user profile keyed by caller principal",
+        "listAvailableTasks returns all tasks with status 'available'",
+        "submitTaskCompletion records a completion entry and marks the task as pending review",
+        "getMyBalance returns the caller's current earned balance",
+        "getMyCompletions returns all task completions for the calling user",
+        "requestWithdrawal stores a withdrawal request with the caller's principal and amount"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Replace the existing homepage with a new landing page for the TaskEarn platform. Include a hero section with the platform name, a tagline (e.g., 'Complete small tasks. Earn real rewards.'), and a call-to-action button linking to the tasks page. Add a 'How It Works' section with three steps (Sign Up, Pick a Task, Get Paid) and a footer with platform links.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Hero section displays platform name, tagline, and CTA button",
+        "'How It Works' section shows three illustrated steps",
+        "Footer contains navigation links to Tasks, Dashboard, and Contact",
+        "Page is fully responsive on mobile and desktop"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Create a Tasks page (route /tasks) that fetches and displays all available tasks from the backend. Each task card must show the task title, short description, reward amount (in tokens/points), and category badge. Include a category filter bar so users can filter tasks by category. Clicking a task card opens a detail view or modal with the full description and a 'Complete This Task' button that submits a completion record via the backend.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Tasks page fetches available tasks via React Query and displays them as cards",
+        "Each card shows title, description snippet, reward, and category badge",
+        "Category filter bar filters the displayed tasks without a page reload",
+        "'Complete This Task' button calls submitTaskCompletion and shows a success toast",
+        "Loading skeleton cards are shown while data is fetching"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Implement Internet Identity–based authentication so users can log in and out. On login, call registerUser to ensure a profile exists. Show a 'Sign In' button in the navigation when unauthenticated and display the user's truncated principal and a 'Sign Out' button when authenticated. Gate the 'Complete This Task' action behind authentication — prompt unauthenticated users to sign in first.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigation shows 'Sign In' button when user is not authenticated",
+        "Navigation shows truncated principal ID and 'Sign Out' when authenticated",
+        "Clicking 'Complete This Task' when unauthenticated shows a sign-in prompt instead",
+        "After login, registerUser is called automatically to create/retrieve the user profile"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Create a user Dashboard page (route /dashboard) accessible only to authenticated users. Display the user's current earned balance, a list of their completed tasks with completion date and reward earned, and a 'Request Withdrawal' form with an amount field that submits a withdrawal request to the backend. Show a summary card with total tasks completed and total earnings.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard redirects unauthenticated users to the home page",
+        "Balance card shows the user's current earned balance",
+        "Completed tasks list shows task title, completion date, and reward for each entry",
+        "Summary card shows total number of completed tasks and total earnings",
+        "'Request Withdrawal' form validates the amount and calls requestWithdrawal on submit",
+        "A success toast confirms the withdrawal request was submitted"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Apply a fresh, modern visual theme for the TaskEarn platform throughout all pages. Use a clean, energetic color palette with deep indigo and vibrant green accent tones, modern sans-serif typography, card-based layouts with subtle shadows, and clear visual hierarchy. Replace all existing cafe-themed styles (earthy browns, terracotta, serif fonts) with the new theme consistently across all components and pages.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All pages use the new indigo/green color palette with no cafe earthy tones remaining",
+        "Typography uses a modern sans-serif font family for all headings and body text",
+        "Task cards, dashboard cards, and navigation use consistent card-with-shadow styling",
+        "Theme is consistently applied across Home, Tasks, Dashboard pages and Navigation/Footer"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Update the site-wide navigation bar to include links to Home, Tasks, and Dashboard. Remove cafe-specific links (Menu, Contact). The navigation should highlight the active route and remain responsive with a collapsible mobile menu.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigation links are: Home (/), Tasks (/tasks), Dashboard (/dashboard)",
+        "Active route link is visually highlighted",
+        "Mobile hamburger menu collapses navigation on small screens",
+        "No cafe-specific links (Menu, Contact) remain in the navigation"
+      ]
+    }
+  ],
+  "constraints": [
+    "Authentication must use Internet Identity only — no username/password system",
+    "All backend logic must remain in a single Motoko actor (backend/main.mo)",
+    "Do not edit files listed in frontend.immutablePaths"
+  ],
+  "nonGoals": [
+    "Real monetary payments or fiat currency withdrawals",
+    "Admin panel for approving task completions",
+    "Email notifications or real-time updates",
+    "Third-party task integrations or external APIs",
+    "Retaining any cafe-related content or features"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Bold platform hero banner with abstract geometric shapes and glowing green/indigo gradient accents on a dark background, suitable for a task-earning website (hero-banner.dim_1200x500.png)",
+      "Flat illustration of a checklist with a coin reward icon, clean minimal style on a light background (task-reward-icon.dim_400x400.png)"
+    ],
+    "edits": []
+  }
+}

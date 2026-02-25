@@ -1,0 +1,138 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-replace-the-existing-homepage-with-a-new-landing-page-for-the-taskearn-platform-include-a-hero-section-with-the-platform-name-a-tagline-e-g-complete-small-tasks-earn-real-rewards-and-a-call-to-action-button-linking-to-the-tasks-page-add-a-how-it-works-section-with-three-steps-sign-up-pick-a-task-get-paid-and-a-footer-with-platform-links",
+      "featureTitle": "Replace the existing homepage with a new landing page for the TaskEarn platform. Include a hero section with the platform name, a tagline (e.g., 'Complete small tasks. Earn real rewards.'), and a call-to-action button linking to the tasks page. Add a 'How It Works' section with three steps (Sign Up, Pick a Task, Get Paid) and a footer with platform links.",
+      "files": [
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-tasks-page-route-tasks-that-fetches-and-displays-all-available-tasks-from-the-backend-each-task-card-must-show-the-task-title-short-description-reward-amount-in-tokens-points-and-category-badge-include-a-category-filter-bar-so-users-can-filter-tasks-by-category-clicking-a-task-card-opens-a-detail-view-or-modal-with-the-full-description-and-a-complete-this-task-button-that-submits-a-completion-record-via-the-backend",
+      "featureTitle": "Create a Tasks page (route /tasks) that fetches and displays all available tasks from the backend. Each task card must show the task title, short description, reward amount (in tokens/points), and category badge. Include a category filter bar so users can filter tasks by category. Clicking a task card opens a detail view or modal with the full description and a 'Complete This Task' button that submits a completion record via the backend.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/TaskCard.tsx",
+        "frontend/src/components/TaskDetailModal.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/TasksPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-internet-identity-based-authentication-so-users-can-log-in-and-out-on-login-call-registeruser-to-ensure-a-profile-exists-show-a-sign-in-button-in-the-navigation-when-unauthenticated-and-display-the-user-s-truncated-principal-and-a-sign-out-button-when-authenticated-gate-the-complete-this-task-action-behind-authentication-prompt-unauthenticated-users-to-sign-in-first",
+      "featureTitle": "Implement Internet Identity–based authentication so users can log in and out. On login, call registerUser to ensure a profile exists. Show a 'Sign In' button in the navigation when unauthenticated and display the user's truncated principal and a 'Sign Out' button when authenticated. Gate the 'Complete This Task' action behind authentication — prompt unauthenticated users to sign in first.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Navigation.tsx",
+        "frontend/src/components/ProfileSetupModal.tsx",
+        "frontend/src/components/TaskDetailModal.tsx",
+        "frontend/src/hooks/useAuth.ts"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-user-dashboard-page-route-dashboard-accessible-only-to-authenticated-users-display-the-user-s-current-earned-balance-a-list-of-their-completed-tasks-with-completion-date-and-reward-earned-and-a-request-withdrawal-form-with-an-amount-field-that-submits-a-withdrawal-request-to-the-backend-show-a-summary-card-with-total-tasks-completed-and-total-earnings",
+      "featureTitle": "Create a user Dashboard page (route /dashboard) accessible only to authenticated users. Display the user's current earned balance, a list of their completed tasks with completion date and reward earned, and a 'Request Withdrawal' form with an amount field that submits a withdrawal request to the backend. Show a summary card with total tasks completed and total earnings.",
+      "files": [
+        "frontend/src/components/BalanceCard.tsx",
+        "frontend/src/components/CompletedTasksList.tsx",
+        "frontend/src/components/WithdrawalForm.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-fresh-modern-visual-theme-for-the-taskearn-platform-throughout-all-pages-use-a-clean-energetic-color-palette-with-deep-indigo-and-vibrant-green-accent-tones-modern-sans-serif-typography-card-based-layouts-with-subtle-shadows-and-clear-visual-hierarchy-replace-all-existing-cafe-themed-styles-earthy-browns-terracotta-serif-fonts-with-the-new-theme-consistently-across-all-components-and-pages",
+      "featureTitle": "Apply a fresh, modern visual theme for the TaskEarn platform throughout all pages. Use a clean, energetic color palette with deep indigo and vibrant green accent tones, modern sans-serif typography, card-based layouts with subtle shadows, and clear visual hierarchy. Replace all existing cafe-themed styles (earthy browns, terracotta, serif fonts) with the new theme consistently across all components and pages.",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-site-wide-navigation-bar-to-include-links-to-home-tasks-and-dashboard-remove-cafe-specific-links-menu-contact-the-navigation-should-highlight-the-active-route-and-remain-responsive-with-a-collapsible-mobile-menu",
+      "featureTitle": "Update the site-wide navigation bar to include links to Home, Tasks, and Dashboard. Remove cafe-specific links (Menu, Contact). The navigation should highlight the active route and remain responsive with a collapsible mobile menu.",
+      "files": [
+        "frontend/src/components/Navigation.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

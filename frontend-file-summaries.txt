@@ -1,0 +1,22 @@
+{
+  "frontend/src/index.css": "Global styles with TaskEarn OKLCH color palette (deep indigo primary + vibrant green accent), Google Fonts import for Space Grotesk (headings) and Inter (body), and base typography rules for both light and dark modes.",
+  "frontend/tailwind.config.js": "Extended Tailwind config with TaskEarn color tokens (indigo/green palette), Space Grotesk/Inter font families, card shadow utilities, glow effects, and fade-in animation.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all TaskEarn backend operations: listing available tasks, submitting task completions, fetching user balance/completions, registering users, requesting withdrawals, and getting caller profile.",
+  "frontend/src/App.tsx": "Root app with TanStack Router (routes: /, /tasks, /dashboard), shared Navigation/Footer/Toaster layout via Outlet, and ProfileSetupModal rendered when user has no profile.",
+  "frontend/src/components/Navigation.tsx": "Sticky responsive navigation bar with TaskEarn branding, desktop/mobile nav links (Home, Tasks, Dashboard), active route highlighting, and Internet Identity sign-in/sign-out controls.",
+  "frontend/src/components/Footer.tsx": "TaskEarn platform footer with brand identity, quick links (Home, Tasks, Dashboard), platform info, copyright year, and caffeine.ai attribution with UTM tracking.",
+  "frontend/src/components/MenuItem.tsx": "Reusable menu item card displaying name, category badge, description, and price in a warm artisan style.",
+  "frontend/src/components/ContactForm.tsx": "Controlled contact form with name/email/message fields, validation, loading state, success confirmation screen, and backend submission via mutation.",
+  "frontend/src/pages/HomePage.tsx": "TaskEarn landing page with hero section (background image, platform name, tagline, CTA buttons), stats strip, \"How It Works\" three-step section, and CTA banner.",
+  "frontend/src/pages/MenuPage.tsx": "Menu page with category filter tabs (All, Coffee, Tea, Snacks, Meals), backend-fetched items, loading skeletons, and auto-init if menu is empty.",
+  "frontend/src/pages/ContactPage.tsx": "Contact page with backend-fetched contact details (address, phone, email, hours) and an embedded ContactForm component.",
+  "frontend/src/hooks/useAuth.ts": "Custom auth hook wrapping useInternetIdentity with login/logout handlers, profile loading state, and showProfileSetup flag for first-time users.",
+  "frontend/src/components/ProfileSetupModal.tsx": "Modal dialog for first-time users to enter a username after signing in; calls registerUser mutation and shows success toast on completion.",
+  "frontend/src/components/TaskCard.tsx": "Reusable task card displaying title, truncated description, reward amount with token label, and category badge; clickable with hover effects.",
+  "frontend/src/components/TaskDetailModal.tsx": "Dialog modal showing full task details (title, description, reward, category) with a \"Complete This Task\" button for authenticated users or a sign-in prompt for unauthenticated users.",
+  "frontend/src/components/BalanceCard.tsx": "Card component displaying the user's current token balance with loading skeleton and earned-from-tasks label.",
+  "frontend/src/components/CompletedTasksList.tsx": "List component showing user's completed tasks with task ID, completion date, and approval status; includes empty state and loading skeletons.",
+  "frontend/src/components/WithdrawalForm.tsx": "Form component for requesting token withdrawals with amount validation (positive, within balance), loading state, and success/error toasts.",
+  "frontend/src/pages/TasksPage.tsx": "Tasks browsing page with category filter bar, grid of TaskCard components, loading skeletons, empty states, and TaskDetailModal integration.",
+  "frontend/src/pages/DashboardPage.tsx": "Authenticated-only dashboard page showing balance card, task summary card, completed tasks list, and withdrawal form; redirects unauthenticated users to home."
+}
